@@ -73,16 +73,33 @@ export default function Home() {
   };
 
   const getPasskey = async () => {
-    const options: CredentialRequestOptions = {
-      publicKey: {
-        challenge: crypto.getRandomValues(new Uint8Array(32)),
-        rpId: "localhost",
-        allowCredentials: [],
-      },
+    const dummyChallenge = Uint8Array.from("dummy_challenge_string", c => c.charCodeAt(0));
+    
+    const dummyAuthOptions: PublicKeyCredentialRequestOptions = {
+      challenge: dummyChallenge,
+      timeout: 60000,
+      rpId: "localhost", 
+      allowCredentials: [
+        {
+          id: Uint8Array.from([1, 2, 3, 4, 5]).buffer,
+          type: "public-key",
+          transports: ["internal"],
+        },
+      ],
+      userVerification: "required",
     };
-    const credential = await navigator.credentials.get(options);
-    setCredential(credential);
+  
+    try {
+      const credential = await navigator.credentials.get({
+        publicKey: dummyAuthOptions
+      });
+      console.log("✅ Credential:", credential);
+      setCredential(credential);
+    } catch (err) {
+      console.error("❌ 認証失敗:", err);
+    }
   };
+  
 
   return (
     <main className="min-h-screen bg-gray-800 text-white flex items-center justify-center p-4">
