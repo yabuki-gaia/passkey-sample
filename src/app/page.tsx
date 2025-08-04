@@ -52,7 +52,7 @@ export default function Home() {
     const options: CredentialCreationOptions = {
       publicKey: {
         challenge: crypto.getRandomValues(new Uint8Array(32)),
-        rp: { name: "パスキーサンプル" },
+        rp: { name: "パスキーサンプル" , id: window.location.hostname},
         user: {
           id: new TextEncoder().encode("user-id-123"),
           name: "yabuki@gaia-btm.com",
@@ -73,6 +73,8 @@ export default function Home() {
   };
 
   const getPasskey = async () => {
+    
+    // 実際はバックエンドから帰ってきたチャレンジを使う
     if (!credential) {
       alert("先にパスキーを登録してください！");
       return;
@@ -107,12 +109,37 @@ export default function Home() {
       alert("パスキーによる署名に失敗。");
     }
   };
+  const getConditionalPasskey = async () => {
+    try {
+
+      const challenge = Uint8Array.from("dummy_challenge_string", c => c.charCodeAt(0));
+      const credential = await navigator.credentials.get({
+        publicKey: {
+          challenge: challenge,
+          rpId: window.location.hostname,
+          userVerification: "required",
+        },
+        mediation: "conditional"
+      });
+  
+      if (credential) {
+        console.log("✅ 自動ログイン成功:", credential);
+        alert("自動ログイン成功");
+        setCredential(credential);
+      } else {
+        console.log("credential is null");
+      }
+    } catch (err) {
+      console.error("❌ 自動ログイン失敗:", err);
+      alert("error 自動ログインに失敗");  
+    }
+  };
   
 
   return (
     <main className="min-h-screen bg-gray-800 text-white flex items-center justify-center p-4">
       <div className="max-w-2xl w-full  rounded-2xl shadow-xl p-6 space-y-6">
-        <h1 className="text-3xl font-bold text-center">🔐 パスキーサンプル</h1>
+        <h1 className="text-xl md:text-4xl font-bold text-center">🔐 パスキーサンプル</h1>
 
         <div className="space-y-4">
           <button
@@ -138,7 +165,15 @@ export default function Home() {
             <KeyRound className="w-5 h-5" />
             パスキー取得
           </button>
+          <button
+            onClick={getConditionalPasskey}
+            className="w-full flex items-center justify-center gap-2 bg-yellow-600 hover:bg-yellow-700 transition p-3 rounded-xl font-semibold"
+          >
+            <KeyRound className="w-5 h-5" />
+            パスキーで自動ログイン
+          </button>
         </div>
+
 
         <div className="text-sm text-gray-400 rounded-lg ">
           <pre className="overflow-x-auto bg-gray-900 text-green-400 p-4 rounded-lg">{JSON.stringify(credential, null, 2)}</pre>
