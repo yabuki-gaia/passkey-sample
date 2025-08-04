@@ -150,6 +150,13 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-800 text-white flex items-center justify-center p-4">
+        <input
+          id="autofill-trigger"
+          type="text"
+          name="username"
+          autoComplete="webauthn"
+          style={{ position: "absolute", opacity: 0, height: 1, width: 1 }}
+        />
       <div className="max-w-2xl w-full  rounded-2xl shadow-xl p-6 space-y-6">
         <h1 className="text-xl md:text-4xl font-bold text-center">🔐 パスキーサンプル</h1>
 
@@ -160,7 +167,7 @@ export default function Home() {
             disabled={isLoading}
           >
             <Check className="w-5 h-5" />
-            パスキー対応確認
+            パスキー対応確認 {isLoading ? "..." : ""}
           </button>
 
           <button
@@ -169,7 +176,7 @@ export default function Home() {
             disabled={isLoading}
           >
             <Fingerprint className="w-5 h-5" />
-            パスキー登録
+            パスキー登録 {isLoading ? "..." : ""}
           </button>
 
           <button
@@ -178,7 +185,7 @@ export default function Home() {
             disabled={isLoading}
           >
             <KeyRound className="w-5 h-5" />
-            パスキー取得
+            パスキー取得 {isLoading ? "..." : ""}
           </button>
           <button
             onClick={getConditionalPasskey}
@@ -186,9 +193,10 @@ export default function Home() {
             disabled={isLoading}
           >
             <KeyRound className="w-5 h-5" />
-            パスキーで自動ログイン
+            パスキーで自動ログイン {isLoading ? "..." : ""}
           </button>
         </div>
+        
 
 
         <div className="text-sm text-gray-400 rounded-lg ">
