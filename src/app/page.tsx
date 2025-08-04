@@ -99,33 +99,6 @@ export default function Home() {
     });
   };
 
-  const getConditionalPasskey = async () => {
-
-    startTransition(async () => {
-      try {
-        const challenge = Uint8Array.from("dummy_challenge_string", c => c.charCodeAt(0));
-        const credential = await navigator.credentials.get({
-          publicKey: {
-            challenge: challenge,
-            rpId: window.location.hostname,
-            userVerification: "required",
-          },
-          mediation: "conditional"
-        });
-    
-        if (credential) {
-          alert("自動ログイン成功");
-          setCredential(credential);
-        } else {
-          alert("自動ログインに失敗");
-        }
-      } catch (err) {
-        console.error("❌ 自動ログイン失敗:", err);
-        alert("error 自動ログインに失敗");  
-      }
-    });
-  };
-
   return (
     <main className="min-h-screen bg-gray-800 text-white flex items-center justify-center p-4">
         <input
@@ -164,14 +137,6 @@ export default function Home() {
           >
             <KeyRound className="w-5 h-5" />
             パスキー取得 {isLoading ? "..." : ""}
-          </button>
-          <button
-            onClick={getConditionalPasskey}
-            className="w-full flex items-center justify-center gap-2 bg-yellow-600 hover:bg-yellow-700 transition p-3 rounded-xl font-semibold"
-            disabled={isLoading}
-          >
-            <KeyRound className="w-5 h-5" />
-            パスキーで自動ログイン {isLoading ? "..." : ""}
           </button>
         </div>
         
