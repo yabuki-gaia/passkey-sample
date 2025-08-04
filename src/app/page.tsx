@@ -101,10 +101,10 @@ export default function Home() {
       const result = await navigator.credentials.get({ publicKey: authOptions });
       console.log("✅ 認証成功:", result);
       setCredential(result);
-      alert("認証成功！");
+      alert("パスキーによる署名に成功。");
     } catch (err) {
       console.error("❌ 認証失敗:", err);
-      alert("認証失敗！");
+      alert("パスキーによる署名に失敗。");
     }
   };
   
