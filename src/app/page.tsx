@@ -1,17 +1,20 @@
 "use client";
 import { Fingerprint, Check, KeyRound } from "lucide-react";
+import { useState } from "react";
 
 export default function Home() {
+  const [credential, setCredential] = useState<Credential | null>(null);
+
   const checkPasskeySupport = async () => {
     const capabilities = await PublicKeyCredential.getClientCapabilities?.();
     console.log("capabilities", capabilities);
 
     if (!capabilities?.isUserVerifyingPlatformAuthenticatorAvailable) {
-      alert("パスキーはサポートされていません");
+      alert("パスキーはサポートされていません isUserVerifyingPlatformAuthenticatorAvailable");
       return;
     }
     if (!capabilities?.isConditionalMediationAvailable) {
-      alert("パスキーはサポートされていません");
+      alert("パスキーはサポートされていません isConditionalMediationAvailable");
       return;
     }
     alert("パスキーはサポートされています");
@@ -45,7 +48,7 @@ export default function Home() {
     };
 
     const credential = await navigator.credentials.create(options);
-    console.log(credential);
+    setCredential(credential);
   };
 
   const getPasskey = async () => {
@@ -89,6 +92,10 @@ export default function Home() {
             <KeyRound className="w-5 h-5" />
             パスキー取得
           </button>
+        </div>
+
+        <div className="text-sm text-gray-400">
+          <pre>{JSON.stringify(credential, null, 2)}</pre>
         </div>
       </div>
     </main>
