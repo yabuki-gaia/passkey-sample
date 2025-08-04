@@ -24,7 +24,7 @@ export default function Home() {
 // };
 
 
-  const [credential, setCredential] = useState<Credential | null>(initialCredential);
+  const [credential, setCredential] = useState<Credential | null>(null);
 
   const checkPasskeySupport = async () => {
     const capabilities = await PublicKeyCredential.getClientCapabilities?.();
