@@ -123,11 +123,10 @@ export default function Home() {
       });
   
       if (credential) {
-        console.log("✅ 自動ログイン成功:", credential);
         alert("自動ログイン成功");
         setCredential(credential);
       } else {
-        console.log("credential is null");
+        alert("自動ログインに失敗");
       }
     } catch (err) {
       console.error("❌ 自動ログイン失敗:", err);
