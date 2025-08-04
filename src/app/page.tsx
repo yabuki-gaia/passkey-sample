@@ -3,27 +3,6 @@ import { Fingerprint, Check, KeyRound } from "lucide-react";
 import { useTransition, useState } from "react";
 
 export default function Home() {
-
-// const initialCredential = {
-//   "authenticatorAttachment": "platform",
-//   "clientExtensionResults": {},
-//   "id": "4_RzqcT7zHqh0P6i6xKcE22CCk0",
-//   "rawId": "4_RzqcT7zHqh0P6i6xKcE22CCk0",
-//   "response": {
-//     "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViYF6ZWBvEMxSm56JmftYbRJxtOvvUSslCDUUH1D0blaTldAAAAAPv8MAcVTk7MjAtuAgVX170AFOP0c6nE-8x6odD-ousSnBNtggpNpQECAyYgASFYIN-uahHPm7OcbyRH_bQs8a-ALnqJmEGJBmrkNNMqV-awIlggIv-zySkpGtrIqO8rFb8bn57pS6oRNfBkLVtGCAysorE",
-//     "authenticatorData": "F6ZWBvEMxSm56JmftYbRJxtOvvUSslCDUUH1D0blaTldAAAAAPv8MAcVTk7MjAtuAgVX170AFOP0c6nE-8x6odD-ousSnBNtggpNpQECAyYgASFYIN-uahHPm7OcbyRH_bQs8a-ALnqJmEGJBmrkNNMqV-awIlggIv-zySkpGtrIqO8rFb8bn57pS6oRNfBkLVtGCAysorE",
-//     "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiVjg3YkUwQ3F3NTNRcXdITnEwMTNqZ1hqNE5jYW9yRDZsMlZhcjk2UHhHZyIsIm9yaWdpbiI6Imh0dHBzOi8vbWFpbi5kMWRsendzOXR3M3J0Ny5hbXBsaWZ5YXBwLmNvbSIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
-//     "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE365qEc-bs5xvJEf9tCzxr4AueomYQYkGauQ00ypX5rAi_7PJKSka2sio7ysVvxufnulLqhE18GQtW0YIDKyisQ",
-//     "publicKeyAlgorithm": -7,
-//     "transports": [
-//       "internal",
-//       "hybrid"
-//     ]
-//   },
-//   "type": "public-key"
-// };
-
-
   const [credential, setCredential] = useState<Credential | null>(null);
   const [isLoading, startTransition] = useTransition();
 
@@ -146,7 +125,6 @@ export default function Home() {
       }
     });
   };
-  
 
   return (
     <main className="min-h-screen bg-gray-800 text-white flex items-center justify-center p-4">
