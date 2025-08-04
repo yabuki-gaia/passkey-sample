@@ -43,7 +43,7 @@ export default function Home() {
 
   const registerPasskey = async () => {
     const isPlatformAvailable =
-      await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable?.();
+      await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
     if (!isPlatformAvailable) {
       alert("このデバイスはパスキーに対応していません。");
       return;
@@ -73,15 +73,23 @@ export default function Home() {
   };
 
   const getPasskey = async () => {
-    const dummyChallenge = Uint8Array.from("dummy_challenge_string", c => c.charCodeAt(0));
-    
-    const dummyAuthOptions: PublicKeyCredentialRequestOptions = {
-      challenge: dummyChallenge,
+    if (!credential) {
+      alert("先にパスキーを登録してください！");
+      return;
+    }
+  
+    const rawId = (credential as PublicKeyCredential).rawId;
+    const credentialId = new Uint8Array(rawId);
+  
+    const challenge = Uint8Array.from("dummy_challenge_string", c => c.charCodeAt(0));
+  
+    const authOptions: PublicKeyCredentialRequestOptions = {
+      challenge: challenge,
       timeout: 60000,
-      rpId: "localhost", 
+      rpId: window.location.hostname, 
       allowCredentials: [
         {
-          id: Uint8Array.from([1, 2, 3, 4, 5]).buffer,
+          id: credentialId.buffer,
           type: "public-key",
           transports: ["internal"],
         },
@@ -90,13 +98,13 @@ export default function Home() {
     };
   
     try {
-      const credential = await navigator.credentials.get({
-        publicKey: dummyAuthOptions
-      });
-      console.log("✅ Credential:", credential);
-      setCredential(credential);
+      const result = await navigator.credentials.get({ publicKey: authOptions });
+      console.log("✅ 認証成功:", result);
+      setCredential(result);
+      alert("認証成功！");
     } catch (err) {
       console.error("❌ 認証失敗:", err);
+      alert("認証失敗！");
     }
   };
   
