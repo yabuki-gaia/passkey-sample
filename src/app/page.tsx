@@ -3,7 +3,28 @@ import { Fingerprint, Check, KeyRound } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
-  const [credential, setCredential] = useState<Credential | null>(null);
+
+const initialCredential = {
+  "authenticatorAttachment": "platform",
+  "clientExtensionResults": {},
+  "id": "4_RzqcT7zHqh0P6i6xKcE22CCk0",
+  "rawId": "4_RzqcT7zHqh0P6i6xKcE22CCk0",
+  "response": {
+    "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViYF6ZWBvEMxSm56JmftYbRJxtOvvUSslCDUUH1D0blaTldAAAAAPv8MAcVTk7MjAtuAgVX170AFOP0c6nE-8x6odD-ousSnBNtggpNpQECAyYgASFYIN-uahHPm7OcbyRH_bQs8a-ALnqJmEGJBmrkNNMqV-awIlggIv-zySkpGtrIqO8rFb8bn57pS6oRNfBkLVtGCAysorE",
+    "authenticatorData": "F6ZWBvEMxSm56JmftYbRJxtOvvUSslCDUUH1D0blaTldAAAAAPv8MAcVTk7MjAtuAgVX170AFOP0c6nE-8x6odD-ousSnBNtggpNpQECAyYgASFYIN-uahHPm7OcbyRH_bQs8a-ALnqJmEGJBmrkNNMqV-awIlggIv-zySkpGtrIqO8rFb8bn57pS6oRNfBkLVtGCAysorE",
+    "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiVjg3YkUwQ3F3NTNRcXdITnEwMTNqZ1hqNE5jYW9yRDZsMlZhcjk2UHhHZyIsIm9yaWdpbiI6Imh0dHBzOi8vbWFpbi5kMWRsendzOXR3M3J0Ny5hbXBsaWZ5YXBwLmNvbSIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+    "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE365qEc-bs5xvJEf9tCzxr4AueomYQYkGauQ00ypX5rAi_7PJKSka2sio7ysVvxufnulLqhE18GQtW0YIDKyisQ",
+    "publicKeyAlgorithm": -7,
+    "transports": [
+      "internal",
+      "hybrid"
+    ]
+  },
+  "type": "public-key"
+};
+
+
+  const [credential, setCredential] = useState<Credential | null>(initialCredential);
 
   const checkPasskeySupport = async () => {
     const capabilities = await PublicKeyCredential.getClientCapabilities?.();
@@ -60,12 +81,12 @@ export default function Home() {
       },
     };
     const credential = await navigator.credentials.get(options);
-    console.log(credential);
+    setCredential(credential);
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-gray-800 rounded-2xl shadow-xl p-6 space-y-6">
+    <main className="min-h-screen bg-gray-800 text-white flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full  rounded-2xl shadow-xl p-6 space-y-6">
         <h1 className="text-3xl font-bold text-center">🔐 パスキーサンプル</h1>
 
         <div className="space-y-4">
@@ -94,8 +115,8 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="text-sm text-gray-400">
-          <pre>{JSON.stringify(credential, null, 2)}</pre>
+        <div className="text-sm text-gray-400 rounded-lg ">
+          <pre className="overflow-x-auto bg-gray-900 text-green-400 p-4 rounded-lg">{JSON.stringify(credential, null, 2)}</pre>
         </div>
       </div>
     </main>
